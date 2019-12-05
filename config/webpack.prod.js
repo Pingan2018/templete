@@ -5,8 +5,9 @@ const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode: 'production',
-  optimization:{
-    minimizer:[
+  optimization: {
+    useExports:true,
+    minimizer: [
       new OptimizeCSSAssetsPlugin(),
       new TerserWebpackPlugin()
     ]

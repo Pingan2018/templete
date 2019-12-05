@@ -1,11 +1,33 @@
 {
-  "presets": [
-      ["@babel/preset-env",{
-          "corejs":2,
-          "useBuiltIns": "usage"
-      }]
-  ],
-  "plugins": [
-     "@babel/plugin-transform-runtime"
-  ]
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "corejs": 2,
+                "useBuiltIns": "usage"
+            }
+        ],
+        "@babel/preset-react",
+        [
+            "@babel/preset-typescript",
+            {
+                "allExtensions": true
+            }
+        ]
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                "legacy": true
+            }
+        ],
+        [
+            "@babel/plugin-proposal-class-properties",
+            {
+                "loose": true
+            }
+        ],
+        "@babel/plugin-transform-runtime"
+    ]
 }
