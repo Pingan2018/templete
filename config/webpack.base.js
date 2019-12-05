@@ -3,6 +3,7 @@ const prodConfig = require('./webpack.prod')
 const path = require('path')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MintCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = env => {
   console.log(env)
@@ -13,7 +14,54 @@ module.exports = env => {
       filename: 'bundle.js',
       path: path.resolve(__dirname, '../dist')
     },
+    module: {
+      rules: [
+        // {
+        //   test: /\.js$/,
+        //   use: 'eslint-loader', // eslint 默认可以使用eslint --init来生成配置文件
+        //   exclude: /node_modules/,
+        //   enforce: 'pre',  // 强制在所有js的loader之前执行
+        // },
+        {
+          test: /\.css$/,
+          use: [
+            isDev ? "style-loader" : MintCssExtractPlugin.loader,
+            {
+              loader: "css-loader",
+              options: {
+                importLoaders: 2
+              }
+            }, "postcss-loader", "sass-loader"]
+        },
+        {
+          test: /\.scss$/,
+          use: ["style-loader", "css-loader", "sass-loader"]
+        },
+        {
+          test:/\.(woff|ttf|svg)$/,
+          use:'file-loader'
+        },
+        {
+          test: /\.(jpe?g|png|gif)$/,
+          use: {
+            loader:"url-loader",
+            options:{
+              name:"img/[contentHash].[ext]",
+              limit:1024,
+            }
+          } 
+        },
+        {
+          test: /\.js$/,
+          use: 'babel-loader', // @babel/core 
+          exclude: /node_modules/
+        },
+      ]
+    },
     plugins: [
+      !isDev && new MintCssExtractPlugin({
+        filename:'css/mian.css'
+      }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, '../public/index.html'),
         filename: 'index.html',
@@ -23,7 +71,7 @@ module.exports = env => {
           collapseWhitespace: true
         }
       })
-    ]
+    ].filter(Boolean)
   }
   return isDev ? merge(baseConfig, devConfig) : merge(baseConfig, prodConfig)
 }

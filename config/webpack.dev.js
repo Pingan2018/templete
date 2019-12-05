@@ -4,6 +4,7 @@ module.exports={
   devServer:{
     port:3000,
     compress:true,//gzip
-    contentBase:path.resolve(__dirname,'../dist')
+    contentBase:path.resolve(__dirname,'../dist'),
+    // overlay:true // 弹出提示层 
   }
 }
