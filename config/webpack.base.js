@@ -7,6 +7,11 @@ const MintCssExtractPlugin = require('mini-css-extract-plugin')
 const PurgeCSSWebpackPlugin = require('purgecss-webpack-plugin')
 const glob = require('glob')
 const AddCdnPlugin = require('add-asset-html-cdn-webpack-plugin')
+const DLLReferencePlugin = require('webpack').DllReferencePlugin
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
+const smw = new SpeedMeasureWebpackPlugin()
 
 module.exports = env => {
   console.log(env)
@@ -15,6 +20,7 @@ module.exports = env => {
     entry: path.resolve(__dirname, '../src/index.js'),
     output: {
       filename: 'bundle.js',
+      // chunkFilename:'[name].min.js',
       path: path.resolve(__dirname, '../dist')
     },
     // externals:{
@@ -28,13 +34,13 @@ module.exports = env => {
         //   exclude: /node_modules/,
         //   enforce: 'pre',  // 强制在所有js的loader之前执行
         // },
+        // {
+        //   test: /\.tsx?$/,
+        //   use: 'babel-loader', // @babel/core 
+        //   exclude: /node_modules/
+        // },
         {
-          test: /\.tsx?$/,
-          use: 'babel-loader', // @babel/core 
-          exclude: /node_modules/
-        },
-        {
-          test: /\.js$/,
+          test: /\.jsx?$/,
           use: 'babel-loader', // @babel/core 
           exclude: /node_modules/
         },
@@ -113,8 +119,15 @@ module.exports = env => {
       // new AddCdnPlugin(true,{
       //   "jquery":"cdnpath"
       // })
+      new DLLReferencePlugin({
+        manifest:path.resolve(__dirname,'../dll/manifest.json')
+      }),
+      new AddAssetHtmlPlugin({
+        filepath:path.resolve(__dirname,'../dll/react.dll.js')
+      }),
+      !isDev&&new BundleAnalyzerPlugin()
     ].filter(Boolean)
   }
-  return isDev ? merge(baseConfig, devConfig) : merge(baseConfig, prodConfig)
+  return isDev ? merge(baseConfig, devConfig) : smw.wrap(merge(baseConfig, prodConfig))
 }
 

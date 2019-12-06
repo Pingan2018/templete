@@ -7,13 +7,13 @@
                 "useBuiltIns": "usage"
             }
         ],
-        "@babel/preset-react",
-        [
-            "@babel/preset-typescript",
-            {
-                "allExtensions": true
-            }
-        ]
+        "@babel/preset-react"
+        // [
+        //     "@babel/preset-typescript",
+        //     {
+        //         "allExtensions": true
+        //     }
+        // ]
     ],
     "plugins": [
         [
