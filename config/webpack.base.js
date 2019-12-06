@@ -4,28 +4,17 @@ const path = require('path')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MintCssExtractPlugin = require('mini-css-extract-plugin')
-const PurgeCSSWebpackPlugin = require('purgecss-webpack-plugin')
-const glob = require('glob')
-const AddCdnPlugin = require('add-asset-html-cdn-webpack-plugin')
-const DLLReferencePlugin = require('webpack').DllReferencePlugin
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
-const smw = new SpeedMeasureWebpackPlugin()
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = env => {
-  console.log(env)
   let isDev = env.development
   const baseConfig = {
     entry: path.resolve(__dirname, '../src/index.js'),
     output: {
       filename: 'bundle.js',
-      // chunkFilename:'[name].min.js',
+      chunkFilename: '[name].[contenthash:8].min.js',
       path: path.resolve(__dirname, '../dist')
     },
-    // externals:{
-    //   "jquery":'$'
-    // },
     module: {
       rules: [
         // {
@@ -34,14 +23,9 @@ module.exports = env => {
         //   exclude: /node_modules/,
         //   enforce: 'pre',  // 强制在所有js的loader之前执行
         // },
-        // {
-        //   test: /\.tsx?$/,
-        //   use: 'babel-loader', // @babel/core 
-        //   exclude: /node_modules/
-        // },
         {
           test: /\.jsx?$/,
-          use: 'babel-loader', // @babel/core 
+          use: 'babel-loader',
           exclude: /node_modules/
         },
         {
@@ -73,7 +57,7 @@ module.exports = env => {
                 limit: 1024,
               }
             },
-            !isDev &&{
+            !isDev && {
               loader: 'image-webpack-loader',
               options: {
                 mozjpeg: {
@@ -109,25 +93,21 @@ module.exports = env => {
         filename: 'index.html',
         hash: true,
         minify: !isDev && {
-          removeAttributeQuotes: true,
-          collapseWhitespace: true
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
         }
       }),
-      new PurgeCSSWebpackPlugin({
-        paths: glob.sync("./src/**/*", { nodir: true })
-      }),
-      // new AddCdnPlugin(true,{
-      //   "jquery":"cdnpath"
-      // })
-      new DLLReferencePlugin({
-        manifest:path.resolve(__dirname,'../dll/manifest.json')
-      }),
-      new AddAssetHtmlPlugin({
-        filepath:path.resolve(__dirname,'../dll/react.dll.js')
-      }),
-      !isDev&&new BundleAnalyzerPlugin()
+      new CleanWebpackPlugin()
     ].filter(Boolean)
   }
-  return isDev ? merge(baseConfig, devConfig) : smw.wrap(merge(baseConfig, prodConfig))
+  return isDev ? merge(baseConfig, devConfig) : merge(baseConfig, prodConfig)
 }
 

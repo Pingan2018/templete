@@ -1,5 +1,5 @@
 const path = require('path')
-const DLLPlugin = require('webpack').DllPlugin
+const {DllPlugin} = require('webpack')
 module.exports = {
     mode:'development',
     entry:['react','react-dom'],
@@ -9,7 +9,7 @@ module.exports = {
         path:path.resolve(__dirname,'../dll')
     },
     plugins:[
-        new DLLPlugin({
+        new DllPlugin({
             name:'react',
             path:path.resolve(__dirname,'../dll/manifest.json')
         })

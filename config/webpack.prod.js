@@ -1,16 +1,20 @@
 const path = require('path')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
+const PurgeCSSWebpackPlugin = require('purgecss-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const FirendlyErrorePlugin = require('friendly-errors-webpack-plugin')
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
+const glob = require('glob')
 const smw = new SpeedMeasureWebpackPlugin()
 
 module.exports = smw.wrap({
   mode: 'production',
   optimization: {
-    usedExports:true,
+    usedExports: true,
     splitChunks: {
-      chunks: 'async',
+      chunks: 'all',
       minSize: 30000,
       maxSize: 0,
       minChunks: 1,
@@ -19,8 +23,8 @@ module.exports = smw.wrap({
       automaticNameDelimiter: '~',
       automaticNameMaxLength: 30,
       cacheGroups: {
-        react:{
-          test:/[\\/]node_modules[\\/](react)|(react-dom)/,
+        react: {
+          test: /[\\/]node_modules[\\/](react)|(react-dom)/,
           priority: 1
         },
         vendors: {
@@ -40,6 +44,11 @@ module.exports = smw.wrap({
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new PurgeCSSWebpackPlugin({
+      paths: glob.sync("./src/**/*", { nodir: true })
+    }),
+    new ProgressBarPlugin(),
+    new FirendlyErrorePlugin(),
+    new BundleAnalyzerPlugin()
   ]
 })
