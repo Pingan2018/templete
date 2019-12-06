@@ -5,6 +5,8 @@ const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MintCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const {DllReferencePlugin} = require('webpack')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
 module.exports = env => {
   let isDev = env.development
@@ -26,7 +28,8 @@ module.exports = env => {
         {
           test: /\.jsx?$/,
           use: 'babel-loader',
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          // include: path.resolve(__dirname, 'src')
         },
         {
           test: /\.css$/,
@@ -105,6 +108,12 @@ module.exports = env => {
           minifyURLs: true,
         }
       }),
+      // new DllReferencePlugin({
+      //   manifest: path.resolve(__dirname, '../dll/manifest.json')
+      // }),
+      // new AddAssetHtmlPlugin({
+      //   filepath: path.resolve(__dirname, '../dll/react.dll.js')
+      // }),
       new CleanWebpackPlugin()
     ].filter(Boolean)
   }

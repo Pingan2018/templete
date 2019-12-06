@@ -5,7 +5,8 @@ const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
 const PurgeCSSWebpackPlugin = require('purgecss-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const FirendlyErrorePlugin = require('friendly-errors-webpack-plugin')
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const glob = require('glob')
 const smw = new SpeedMeasureWebpackPlugin()
 
@@ -27,15 +28,24 @@ module.exports = smw.wrap({
           test: /[\\/]node_modules[\\/](react)|(react-dom)/,
           priority: 1
         },
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
+        antd: {
+          test: /[\\/]node_modules[\\/](antd)/,
+          priority: 2
         },
-        common: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
+        // vendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   priority: -10
+        // },
+        // common: {
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true
+        // }
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'commons',
+          chunks: 'all'
+        },
       }
     },
     minimizer: [
@@ -49,6 +59,7 @@ module.exports = smw.wrap({
     }),
     new ProgressBarPlugin(),
     new FirendlyErrorePlugin(),
+    new AntdDayjsWebpackPlugin(),
     new BundleAnalyzerPlugin()
   ]
 })

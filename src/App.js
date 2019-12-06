@@ -1,24 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Button,message} from 'antd'
 
 function App() {
+  const handleClick=()=>{
+    message.info('This is a normal message');
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Button type='primary' onClick={handleClick}>点击</Button>
     </div>
   );
 }
