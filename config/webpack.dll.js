@@ -1,7 +1,7 @@
 const path = require('path')
 const {DllPlugin} = require('webpack')
 module.exports = {
-    mode:'development',
+    mode:'production',
     entry:['react','react-dom'],
     output:{
         library:'react',

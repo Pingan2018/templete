@@ -7,6 +7,7 @@ const MintCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const {DllReferencePlugin} = require('webpack')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const theme = require('./config')
 
 module.exports = env => {
   let isDev = env.development
@@ -29,22 +30,33 @@ module.exports = env => {
           test: /\.jsx?$/,
           use: 'babel-loader',
           exclude: /node_modules/,
-          // include: path.resolve(__dirname, 'src')
+          include: path.resolve(__dirname, '../src')
         },
         {
           test: /\.css$/,
           use: [
-            isDev ? "style-loader" : MintCssExtractPlugin.loader,
+            isDev ? "style-loader" : {
+              loader:MintCssExtractPlugin.loader,
+              options:{
+                hmr:true
+              }
+            },
             {
               loader: "css-loader",
               options: {
-                importLoaders: 2
+                importLoaders: 2,
               }
-            }, "postcss-loader", "sass-loader"]
+            }, "postcss-loader", "less-loader"]
         },
         {
-          test: /\.scss$/,
-          use: ["style-loader", "css-loader", "sass-loader"]
+          test: /\.less$/,
+          use: ["style-loader", "css-loader", {
+            loader:"less-loader",
+            options:{
+              modifyVars: theme,
+              javascriptEnabled: true
+            }
+          }]
         },
         {
           test: /\.(woff|ttf|svg)$/,
@@ -60,28 +72,28 @@ module.exports = env => {
                 limit: 1024,
               }
             },
-            !isDev && {
-              loader: 'image-webpack-loader',
-              options: {
-                mozjpeg: {
-                  progressive: true,
-                  quality: 65
-                },
-                optipng: {
-                  enabled: false,
-                },
-                pngquant: {
-                  quality: [0.65, 0.90],
-                  speed: 4
-                },
-                gifsicle: {
-                  interlaced: false,
-                },
-                webp: {
-                  quality: 75
-                }
-              }
-            }
+            // !isDev && {
+            //   loader: 'image-webpack-loader',
+            //   options: {
+            //     mozjpeg: {
+            //       progressive: true,
+            //       quality: 65
+            //     },
+            //     optipng: {
+            //       enabled: false,
+            //     },
+            //     pngquant: {
+            //       quality: [0.65, 0.90],
+            //       speed: 4
+            //     },
+            //     gifsicle: {
+            //       interlaced: false,
+            //     },
+            //     webp: {
+            //       quality: 75
+            //     }
+            //   }
+            // }
           ].filter(Boolean)
         },
 
@@ -108,12 +120,12 @@ module.exports = env => {
           minifyURLs: true,
         }
       }),
-      // new DllReferencePlugin({
-      //   manifest: path.resolve(__dirname, '../dll/manifest.json')
-      // }),
-      // new AddAssetHtmlPlugin({
-      //   filepath: path.resolve(__dirname, '../dll/react.dll.js')
-      // }),
+      new DllReferencePlugin({
+        manifest: path.resolve(__dirname, '../dll/manifest.json')
+      }),
+      new AddAssetHtmlPlugin({
+        filepath: path.resolve(__dirname, '../dll/react.dll.js')
+      }),
       new CleanWebpackPlugin()
     ].filter(Boolean)
   }
