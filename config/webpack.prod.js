@@ -6,7 +6,8 @@ const PurgeCSSWebpackPlugin = require('purgecss-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const FirendlyErrorePlugin = require('friendly-errors-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
+const WebpackDeepScopeAnalysisPlugin = require('webpack-deep-scope-plugin').default
 const glob = require('glob')
 const smw = new SpeedMeasureWebpackPlugin()
 
@@ -59,6 +60,7 @@ module.exports = smw.wrap({
     }),
     new ProgressBarPlugin(),
     new FirendlyErrorePlugin(),
+    new WebpackDeepScopeAnalysisPlugin(),
     new AntdDayjsWebpackPlugin(),
     new BundleAnalyzerPlugin()
   ]
