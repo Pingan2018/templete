@@ -26,12 +26,13 @@ module.exports = env => {
       extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     module: {
-      rules: [{
-          test: /\.tsx?$/,
-          use: 'eslint-loader', // eslint 默认可以使用eslint --init来生成配置文件
-          exclude: /node_modules/,
-          enforce: 'pre', // 强制在所有js的loader之前执行
-        },
+      rules: [
+        // {
+        //   test: /\.tsx?$/,
+        //   use: 'eslint-loader', // eslint 默认可以使用eslint --init来生成配置文件
+        //   exclude: /node_modules/,
+        //   enforce: 'pre', // 强制在所有js的loader之前执行
+        // },
         {
           test: /\.tsx?$/,
           use: ['cache-loader', {

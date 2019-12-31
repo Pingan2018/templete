@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './progress.css'
 interface PropType{
 
@@ -6,7 +7,7 @@ interface PropType{
 interface StateType{
   show:boolean
 }
-class Progress extends Component<PropType, StateType> {
+class Box extends Component<PropType, StateType> {
   constructor(props:PropType){
         super(props)
         this.state = {show:false}
@@ -31,5 +32,10 @@ class Progress extends Component<PropType, StateType> {
       )
   }
 }
-
+let div = document.createElement('div');
+document.body.appendChild(div);
+ 
+let Progress = ReactDOM.render(React.createElement(
+  Box
+),div);
 export default Progress
