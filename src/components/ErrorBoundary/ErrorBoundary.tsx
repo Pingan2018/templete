@@ -1,16 +1,22 @@
 import React, { PureComponent } from 'react';
 
-export default class ErrorBoundary extends PureComponent {
-    constructor(props) {
+interface PropType {
+
+}
+interface StateType {
+    hasError: boolean
+}
+export default class ErrorBoundary extends PureComponent<PropType, StateType> {
+    constructor(props: PropType) {
         super(props);
         this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError(error: any) {
         return { hasError: true };
     }
 
-    componentDidCatch(error, info) {
+    componentDidCatch(error: any, info: any) {
         /* eslint-disable */
         console.error('页面加载异常', error, info);
     }
