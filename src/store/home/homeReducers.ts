@@ -1,8 +1,8 @@
-import { AddActionType } from '../actionTypes'
+import { AddActionType } from './homeTypes'
 export const initSate = {
   counter: 1
 }
-function add(state = initSate, action: any) {
+function addReducer(state = initSate, action: any) {
   switch (action.type) {
     case AddActionType.ADD_SUCCESS:
       let { counter } = state
@@ -13,4 +13,6 @@ function add(state = initSate, action: any) {
   }
 }
 
-export default add;
+export {
+  addReducer
+};

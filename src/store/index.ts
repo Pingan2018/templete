@@ -1,10 +1,15 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
-import {add} from './reducers'
-import rootSaga from './saga'
+import { fork, all } from "redux-saga/effects";
+import { watchAdd, addReducer } from './home'
+function* rootSaga() {
+  yield all([
+    fork(watchAdd)
+  ]);
+}
 const sagaMiddleware = createSagaMiddleware();
 let store = createStore(
-  combineReducers({ add }),
+  combineReducers({ addReducer }),
   applyMiddleware(sagaMiddleware)
 );
 sagaMiddleware.run(rootSaga);

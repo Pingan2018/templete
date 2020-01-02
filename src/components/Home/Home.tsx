@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from "react-redux";
-import {add} from '../../store/actions'
+import {addAction} from '../../store/home'
 import { Button } from 'antd'
 interface PropType{
   counter:number
-  add:any
+  addAction:any
 }
 class Home extends React.Component<PropType,any> {
   handleClick = () => {
     console.log(this.props)
-    this.props.add()
+    this.props.addAction()
   };
   render(){
     return (
@@ -23,7 +23,7 @@ class Home extends React.Component<PropType,any> {
 
 export default connect(
   (state:any)=>({
-    counter:state.add.counter
+    counter:state.addReducer.counter
   }),
-  {add}
+  {addAction}
 )(Home);
