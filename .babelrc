@@ -1,0 +1,36 @@
+{
+  "presets": [
+      [
+          "@babel/preset-env",
+          {
+            //   "corejs": 3,
+              "useBuiltIns": "usage"
+          }
+      ],
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+  ],
+  "plugins": [
+      [
+          "@babel/plugin-proposal-decorators",
+          {
+              "legacy": true
+          }
+      ],
+      [
+          "@babel/plugin-proposal-class-properties",
+          {
+              "loose": true
+          }
+      ],
+      [
+          "babel-plugin-import",
+          {
+              "libraryName": "antd",
+              "libraryDirectory": "es",
+              "style": true
+          }
+      ],
+      "@babel/plugin-transform-runtime"
+  ]
+}

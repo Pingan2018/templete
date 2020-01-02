@@ -11,6 +11,7 @@ module.exports={
     hot:true,
     overlay:true // 弹出提示层 
   },
+  stats: 'errors-only',
   plugins: [
     new DllReferencePlugin({
       manifest: path.resolve(__dirname, '../dll/manifest.json')

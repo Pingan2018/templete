@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import {add} from '../../store/Actions'
+import {add} from '../../store/actions'
 import { Button } from 'antd'
 interface PropType{
   counter:number

@@ -38,44 +38,8 @@ module.exports = env => {
           use: ['cache-loader', {
             loader: 'babel-loader',
             options: {
-              babelrc: false,
               configFile: false,
               compact: false,
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    "targets": {
-                      "chrome": "65"
-                    }
-                  }
-                ],
-                "@babel/preset-react",
-                "@babel/preset-typescript"
-              ],
-              plugins: [
-                [
-                  "@babel/plugin-proposal-decorators",
-                  {
-                    "legacy": true
-                  }
-                ],
-                [
-                  "@babel/plugin-proposal-class-properties",
-                  {
-                    "loose": true
-                  }
-                ],
-                [
-                  "babel-plugin-import",
-                  {
-                    "libraryName": "antd",
-                    "libraryDirectory": "es",
-                    "style": true
-                  }
-                ],
-                "@babel/plugin-transform-runtime"
-              ],
               cacheDirectory: true,
               cacheCompression: false,
               sourceMap: false

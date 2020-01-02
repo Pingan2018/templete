@@ -1,5 +1,5 @@
 import { put, call, takeEvery } from "redux-saga/effects";
-import { AddActionType } from '../ActionTypes'
+import { AddActionType } from '../actionTypes'
 // import * as API from '../../api/add'
 // import {$get} from '../../lib/utils'
 

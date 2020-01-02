@@ -1,4 +1,4 @@
-import { AddActionType } from './AddActionType'
+import { AddActionType } from './addActionType'
 export {
   AddActionType
 }
