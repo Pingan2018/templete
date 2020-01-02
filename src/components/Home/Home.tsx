@@ -21,16 +21,6 @@ class Home extends React.Component<PropType,any> {
   }
 }
 
-const mapStateToProps = (store: any) => {
-  return {
-      ...store,
-  };
-};
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-      add: () => dispatch(add()),
-  };
-};
 export default connect(
   (state:any)=>({
     counter:state.add.counter
