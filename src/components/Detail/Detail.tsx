@@ -6,10 +6,14 @@ interface MyWindow extends Window {
   google: any
 }
 declare let window: MyWindow;
+interface RefType{
+  textSearch?:any
+}
 function Detail() {
+  let initRef:RefType = {}
   let myRef = useRef(null)
   let mapRef = useRef(null)
-  let googleRef = useRef(null)
+  let googleRef = useRef(initRef)
   let [list, setList] = useState(['1'])
   // let [list, dispath] = useReducer((state: any, action: any) => {
   //   if (action.type === 'add') {
@@ -18,17 +22,21 @@ function Detail() {
   //   return state
   // }, ['1'])
   useEffect(() => {
-    setImmediate(() => {
-      let map = new window.google.maps.Map(document.getElementById('myMap'), {
-        center: { lat: 1.359253, lng: 103.868396 },
-        disableDefaultUI: true,
-        zoom: 12,
-      })
-      let googleService = new window.google.maps.places.PlacesService(map)
-      mapRef.current=map
-      googleRef.current = googleService
-    })
+    // setImmediate(() => {
+      createMap()
+      
+    // })
   }, [])
+  const createMap = () =>{
+    let map = new window.google.maps.Map(document.getElementById('myMap'), {
+      center: { lat: 1.359253, lng: 103.868396 },
+      disableDefaultUI: true,
+      zoom: 12,
+    })
+    let googleService = new window.google.maps.places.PlacesService(map)
+    mapRef.current=map
+    googleRef.current = googleService
+  }
   const handleSearch = (value: string) => {
     let pyrmont = new window.google.maps.LatLng(1.359253, 103.868396);
     let request = {

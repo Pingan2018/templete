@@ -1,9 +1,9 @@
 import React, { Suspense, Component } from 'react';
 import './App.css';
-import MySider from './components/MySider'
+import MySider from './components/mySider'
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { routeConfig } from './config'
-import ErrorBoundary from './components/ErrorBoundary'
+import ErrorBoundary from './components/errorBoundary'
 import { Layout } from 'antd';
 const { Header, Content } = Layout;
 
