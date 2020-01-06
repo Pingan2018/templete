@@ -50,8 +50,7 @@ module.exports = env => {
         },
         {
           test: /\.css$/,
-          exclude: /node_modules/,
-          include: path.resolve(__dirname, '../src'),
+          include:[path.resolve(__dirname, '../src'),path.resolve(__dirname, '../node_modules/antd')],
           use: [
             isDev ? "style-loader" : {
               loader: MintCssExtractPlugin.loader,
@@ -69,6 +68,7 @@ module.exports = env => {
         },
         {
           test: /\.less$/,
+          include:[path.resolve(__dirname, '../src'),path.resolve(__dirname, '../node_modules/antd')],
           use: ["style-loader", "css-loader", {
             loader: "less-loader",
             options: {
